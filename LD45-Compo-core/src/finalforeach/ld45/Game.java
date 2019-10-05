@@ -1,5 +1,7 @@
 package finalforeach.ld45;
 
+import java.util.Comparator;
+
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
@@ -63,6 +65,12 @@ public class Game extends ApplicationAdapter {
     public void resize(int width, int height) {
         viewport.update(width, height);
     }
+    Comparator<Fighter> fighterComparator =new Comparator<Fighter>(){
+
+		@Override
+		public int compare(Fighter o1, Fighter o2) {
+			return (int)Math.signum(o2.y-o1.y);
+		}};
 	@Override
 	public void render () {
 		update(Gdx.graphics.getDeltaTime());
@@ -76,6 +84,7 @@ public class Game extends ApplicationAdapter {
 		
 		batch.begin();
 		batch.draw(img, 0, 0);
+		fighters.sort(fighterComparator);
 		for(Fighter f : fighters)
 		{
 			f.draw(batch);

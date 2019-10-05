@@ -39,32 +39,40 @@ public class Gladiator extends Fighter
 		hitTimer=0.2f;
 		owSounds[MathUtils.random(0, owSounds.length-1)].play();
 	}
-	float animationTime=0, atkTimer=-1;
+	float animationTime=0, atkTimer=-1, deathTime=0;
 	@Override
 	public void update(float deltaTime) {
 		super.update(deltaTime);
 		hitTimer=Math.max(0,hitTimer-deltaTime);
 		animationTime+=deltaTime * 5;
-		if(isMoving)
+		if(isDead())
 		{
-			switch(((int)animationTime) % 4)
-			{
-			case 0:j=0;break;
-			case 1:j=1;break;
-			case 2:j=2;break;
-			case 3:j=1;break;
-			}
-		}
-		if(atkTimer>-1)
+			deathTime+=deltaTime*5;
+			i=2;
+			j = Math.min((int)deathTime,2);
+		}else
 		{
-			atkTimer+=deltaTime;
-			i=1;
-			if(atkTimer>0.2)
+			if(isMoving)
 			{
-				i=0;
-				if(atkTimer>0.3)
+				switch(((int)animationTime) % 4)
 				{
-					atkTimer=-1;
+				case 0:j=0;break;
+				case 1:j=1;break;
+				case 2:j=2;break;
+				case 3:j=1;break;
+				}
+			}
+			if(atkTimer>-1)
+			{
+				atkTimer+=deltaTime;
+				i=1;
+				if(atkTimer>0.2)
+				{
+					i=0;
+					if(atkTimer>0.3)
+					{
+						atkTimer=-1;
+					}
 				}
 			}
 		}

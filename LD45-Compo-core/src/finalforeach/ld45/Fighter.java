@@ -16,6 +16,7 @@ public abstract class Fighter
 	}
 	public final void hit(float dmg)
 	{
+		if(isDead())return;
 		if(invulnerableTime>0)return;
 		onHit(dmg);
 		invulnerableTime=0.4f;
@@ -77,4 +78,8 @@ public abstract class Fighter
 	}
 	public abstract void draw(SpriteBatch batch);
 	public abstract void attack();
+	public boolean isDead()
+	{
+		return hp<=0;
+	}
 }
