@@ -18,6 +18,8 @@ public abstract class Fighter
 	public abstract float getMaxHP();
 	boolean movingLeft,movingRight;
 	boolean movingUp,movingDown;
+	boolean isMoving;
+	boolean canMove;
 	
 	boolean movedLeftLast;
 	public void moveLeft(){
@@ -37,24 +39,29 @@ public abstract class Fighter
 	public void update(float deltaTime)
 	{
 		float speed = getSpeed()*deltaTime;
-		if(movingLeft){
-			x-=speed;
+		if(canMove)
+		{
+			if(movingLeft){
+				x-=speed;
+			}
+			if(movingRight){
+				x+=speed;
+			}
+			if(movingUp){
+				y+=speed;
+			}
+			if(movingDown){
+				y-=speed;
+			}
 		}
-		if(movingRight){
-			x+=speed;
-		}
-		if(movingUp){
-			y+=speed;
-		}
-		if(movingDown){
-			y-=speed;
-		}
-		
+		isMoving=(movingLeft^movingRight || movingUp ^ movingDown) && canMove;
 		
 		movingLeft=movingRight=movingUp=movingDown=false;
+		canMove=true;
 	}
 	private float getSpeed() {
-		return 60;
+		return 90;
 	}
 	public abstract void draw(SpriteBatch batch);
+	public abstract void attack();
 }

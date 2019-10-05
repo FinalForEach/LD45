@@ -1,6 +1,7 @@
 package finalforeach.ld45;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input.Buttons;
 import com.badlogic.gdx.Input.Keys;
 
 public class Player {
@@ -26,6 +27,10 @@ public class Player {
 		if(Gdx.input.isKeyJustPressed(Keys.P))
 		{
 			fighter.hit(1);
+		}
+		if(Gdx.input.isButtonPressed(Buttons.LEFT))
+		{
+			fighter.attack();
 		}
 	}
 }
