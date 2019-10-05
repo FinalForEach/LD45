@@ -24,7 +24,7 @@ public class Gladiator extends Fighter
 
 	@Override
 	public void draw(SpriteBatch batch) {
-		batch.draw(gladiatorTex, x, y);
+		batch.draw(gladiatorTex, x-32, y,64,64,0,0,64,64,movedLeftLast,false);
 	}
 
 

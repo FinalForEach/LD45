@@ -18,11 +18,15 @@ public abstract class Fighter
 	public abstract float getMaxHP();
 	boolean movingLeft,movingRight;
 	boolean movingUp,movingDown;
+	
+	boolean movedLeftLast;
 	public void moveLeft(){
 		movingLeft=true;
+		movedLeftLast=true;
 	}
 	public void moveRight(){
 		movingRight=true;
+		movedLeftLast=false;
 	}
 	public void moveUp(){
 		movingUp=true;
