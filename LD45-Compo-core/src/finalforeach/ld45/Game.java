@@ -56,7 +56,8 @@ public class Game extends ApplicationAdapter {
 		}
 		particles.removeAll(deadParticles, true);
 		player.update(deltaTime);
-		cam.position.set(player.fighter.x,Math.max(player.fighter.y+ 128*cam.zoom,256*cam.zoom), 0);
+		cam.position.set(MathUtils.clamp(player.fighter.x,256*cam.zoom,2048-256*cam.zoom),
+				Math.max(player.fighter.y+ 128*cam.zoom,256*cam.zoom), 0);
 		
 	}
     public void resize(int width, int height) {
@@ -65,7 +66,6 @@ public class Game extends ApplicationAdapter {
 	@Override
 	public void render () {
 		update(Gdx.graphics.getDeltaTime());
-		//Gdx.gl.glClearColor(113/255f, 113/255f, 218/255f, 1);
 		Gdx.gl.glClearColor(0, 0, 0, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		

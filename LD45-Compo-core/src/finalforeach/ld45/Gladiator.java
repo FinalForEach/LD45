@@ -58,11 +58,10 @@ public class Gladiator extends Fighter
 		if(atkTimer>-1)
 		{
 			atkTimer+=deltaTime;
-			j=3;
-			canMove=false;
+			i=1;
 			if(atkTimer>0.2)
 			{
-				j=0;
+				i=0;
 				if(atkTimer>0.3)
 				{
 					atkTimer=-1;
