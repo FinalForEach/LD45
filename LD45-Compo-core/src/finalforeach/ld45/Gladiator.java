@@ -34,8 +34,8 @@ public class Gladiator extends Fighter
 	}
 	
 	@Override
-	public void hit(float dmg) {
-		super.hit(dmg);
+	public void onHit(float dmg) {
+		super.onHit(dmg);
 		hitTimer=0.2f;
 		owSounds[MathUtils.random(0, owSounds.length-1)].play();
 	}
@@ -60,10 +60,13 @@ public class Gladiator extends Fighter
 			atkTimer+=deltaTime;
 			j=3;
 			canMove=false;
-			if(atkTimer>0.25)
+			if(atkTimer>0.2)
 			{
-				atkTimer=-1;
 				j=0;
+				if(atkTimer>0.3)
+				{
+					atkTimer=-1;
+				}
 			}
 		}
 	}
@@ -92,6 +95,8 @@ public class Gladiator extends Fighter
 		{
 			atkTimer=0;
 			swishSounds[MathUtils.random(0, swishSounds.length-1)].play();
+			float velX = movedLeftLast? -100:100;
+			Game.particles.add(new PunchParticle(x+(movedLeftLast?-14:14), y+24, velX, 0,this));
 		}
 	}
 

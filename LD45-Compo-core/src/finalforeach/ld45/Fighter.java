@@ -1,20 +1,30 @@
 package finalforeach.ld45;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Rectangle;
 
 public abstract class Fighter
 {
-	float hp;
+	float hp, invulnerableTime;
 	float x, y;
+	Rectangle rect;
 	public Fighter(float x, float y) {
 		this.x=x;
 		this.y=y;
 		this.hp=getMaxHP();
+		rect = new Rectangle(x-32,y,64,64);
 	}
-	public void hit(float dmg)
+	public final void hit(float dmg)
+	{
+		if(invulnerableTime>0)return;
+		onHit(dmg);
+		invulnerableTime=0.4f;
+	}
+	protected void onHit(float dmg)
 	{
 		hp-=dmg;
 	}
+	
 	public abstract float getMaxHP();
 	boolean movingLeft,movingRight;
 	boolean movingUp,movingDown;
@@ -38,6 +48,8 @@ public abstract class Fighter
 	}
 	public void update(float deltaTime)
 	{
+		invulnerableTime-=deltaTime;
+		if(invulnerableTime<0)invulnerableTime=0;
 		float speed = getSpeed()*deltaTime;
 		if(canMove)
 		{
@@ -58,6 +70,7 @@ public abstract class Fighter
 		
 		movingLeft=movingRight=movingUp=movingDown=false;
 		canMove=true;
+		rect.set(x-32,y,64,64);
 	}
 	private float getSpeed() {
 		return 90;

@@ -8,16 +8,18 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.IntArray;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 public class Game extends ApplicationAdapter {
 	SpriteBatch batch;
 	Texture img;
-	Array<Fighter> fighters;
 	Player player;
 	OrthographicCamera cam;
 	Viewport viewport;
+	public static Array<Particle> particles;
+	public static Array<Fighter> fighters;
 	@Override
 	public void create () {
 		cam = new OrthographicCamera(512,512);
@@ -29,6 +31,7 @@ public class Game extends ApplicationAdapter {
 		Fighter enemyFighter = new Gladiator(90,30);
 		
 		fighters = new Array<Fighter>();
+		particles = new Array<Particle>();
 		
 		fighters.add(playerFighter);
 		fighters.add(enemyFighter);
@@ -44,6 +47,14 @@ public class Game extends ApplicationAdapter {
 			f.y=MathUtils.clamp(f.y, 0, 100);
 			f.x=MathUtils.clamp(f.x, 40, 1940);
 		}
+		Array<Particle> deadParticles = new Array<Particle>();
+		for(Particle p : particles)
+		{
+			p.update(deltaTime);
+			if(p.lifetime>p.getMaxLifetime())
+				deadParticles.add(p);
+		}
+		particles.removeAll(deadParticles, true);
 		player.update(deltaTime);
 		cam.position.set(player.fighter.x,Math.max(player.fighter.y+ 128*cam.zoom,256*cam.zoom), 0);
 		
@@ -68,6 +79,11 @@ public class Game extends ApplicationAdapter {
 		for(Fighter f : fighters)
 		{
 			f.draw(batch);
+		}
+
+		for(Particle p : particles)
+		{
+			p.draw(batch);
 		}
 		batch.end();
 	}
