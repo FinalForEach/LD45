@@ -4,15 +4,16 @@ import java.util.Comparator;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.Array;
-import com.badlogic.gdx.utils.IntArray;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+
 
 public class Game extends ApplicationAdapter {
 	SpriteBatch batch;
@@ -25,7 +26,7 @@ public class Game extends ApplicationAdapter {
 	@Override
 	public void create () {
 		cam = new OrthographicCamera(512,512);
-		viewport = new FitViewport(512, 512,cam);
+		viewport = new FitViewport(1280, 720,cam);
 		batch = new SpriteBatch();
 		img = new Texture("background.png");
 		Fighter playerFighter = new Gladiator(30, 30);
@@ -42,12 +43,22 @@ public class Game extends ApplicationAdapter {
 
 	public void update(float deltaTime)
 	{
+		if(Gdx.input.isKeyJustPressed(Keys.F11))
+		{
+			if(!Gdx.graphics.isFullscreen())
+			{
+				Gdx.graphics.setFullscreenMode(Gdx.graphics.getDisplayMode());
+			}else
+			{
+				Gdx.graphics.setWindowedMode(1280, 720);
+			}
+		}
 		for(Fighter f : fighters)
 		{
 			f.update(deltaTime);
 			
 			f.y=MathUtils.clamp(f.y, 0, 100);
-			f.x=MathUtils.clamp(f.x, 40, 1940);
+			f.x=MathUtils.clamp(f.x, 64, 2048-64);
 		}
 		Array<Particle> deadParticles = new Array<Particle>();
 		for(Particle p : particles)
@@ -58,8 +69,10 @@ public class Game extends ApplicationAdapter {
 		}
 		particles.removeAll(deadParticles, true);
 		player.update(deltaTime);
-		cam.position.set(MathUtils.clamp(player.fighter.x,256*cam.zoom,2048-256*cam.zoom),
-				Math.max(player.fighter.y+ 128*cam.zoom,256*cam.zoom), 0);
+		float w=1280;
+		float h=720;
+		cam.position.set(MathUtils.clamp(player.fighter.x,w/2*cam.zoom,2048-w/2*cam.zoom),
+				Math.max(player.fighter.y+ h/4*cam.zoom,h/2*cam.zoom), 0);
 		
 	}
     public void resize(int width, int height) {
