@@ -32,6 +32,5 @@ public class Player {
 		{
 			fighter.attack();
 		}
-		System.out.println(fighter.x);
 	}
 }

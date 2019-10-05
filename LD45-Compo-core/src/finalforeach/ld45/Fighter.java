@@ -52,7 +52,7 @@ public abstract class Fighter
 		invulnerableTime-=deltaTime;
 		if(invulnerableTime<0)invulnerableTime=0;
 		float speed = getSpeed()*deltaTime;
-		if(canMove)
+		if(canMove&&!isDead())
 		{
 			if(movingLeft){
 				x-=speed;

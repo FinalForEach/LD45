@@ -17,27 +17,35 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 
 public class Game extends ApplicationAdapter {
 	SpriteBatch batch;
-	Texture img;
-	Player player;
+	Texture bkgTex;
 	OrthographicCamera cam;
 	Viewport viewport;
 	public static Array<Particle> particles;
 	public static Array<Fighter> fighters;
+	public static Array<AIController> ais;
+	public static Player player;
 	@Override
 	public void create () {
 		cam = new OrthographicCamera(512,512);
 		viewport = new FitViewport(1280, 720,cam);
 		batch = new SpriteBatch();
-		img = new Texture("background.png");
+		bkgTex = new Texture("background.png");
+		fighters = new Array<Fighter>();
+		particles = new Array<Particle>();
+		ais = new Array<AIController>();
+		
+		
 		Fighter playerFighter = new Gladiator(30, 30);
 		player = new Player(playerFighter);
 		Fighter enemyFighter = new Gladiator(90,30);
 		
-		fighters = new Array<Fighter>();
-		particles = new Array<Particle>();
-		
 		fighters.add(playerFighter);
 		fighters.add(enemyFighter);
+		
+		
+		MeleeAI enemyAI = new MeleeAI(enemyFighter); 
+		ais.add(enemyAI);
+		
 		cam.zoom=0.5f;
 	}
 
@@ -52,6 +60,10 @@ public class Game extends ApplicationAdapter {
 			{
 				Gdx.graphics.setWindowedMode(1280, 720);
 			}
+		}
+		for(AIController ai : ais)
+		{
+			ai.update(deltaTime);
 		}
 		for(Fighter f : fighters)
 		{
@@ -96,7 +108,7 @@ public class Game extends ApplicationAdapter {
 		batch.setTransformMatrix(cam.view);
 		
 		batch.begin();
-		batch.draw(img, 0, 0);
+		batch.draw(bkgTex, 0, 0);
 		fighters.sort(fighterComparator);
 		for(Fighter f : fighters)
 		{
@@ -113,6 +125,6 @@ public class Game extends ApplicationAdapter {
 	@Override
 	public void dispose () {
 		batch.dispose();
-		img.dispose();
+		bkgTex.dispose();
 	}
 }
