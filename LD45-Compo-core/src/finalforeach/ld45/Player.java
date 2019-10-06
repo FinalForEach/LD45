@@ -28,10 +28,6 @@ public class Player {
 		if(Gdx.input.isKeyPressed(Keys.S)){
 			fighter.moveDown();
 		}
-		if(Gdx.input.isKeyJustPressed(Keys.P))
-		{
-			fighter.hp=fighter.getMaxHP();
-		}
 		if(Gdx.input.isButtonPressed(Buttons.LEFT))
 		{
 			fighter.attack();
