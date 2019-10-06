@@ -16,16 +16,16 @@ public class Player {
 	{
 		screenCoords.set(Gdx.input.getX(),Gdx.input.getY(),0);
 		Game.cam.unproject(screenCoords);
-		if(Gdx.input.isKeyPressed(Keys.A)){
+		if(Gdx.input.isKeyPressed(Keys.A) || Gdx.input.isKeyPressed(Keys.LEFT)){
 			fighter.moveLeft();
 		}
-		if(Gdx.input.isKeyPressed(Keys.D)){
+		if(Gdx.input.isKeyPressed(Keys.D) || Gdx.input.isKeyPressed(Keys.RIGHT)){
 			fighter.moveRight();
 		}
-		if(Gdx.input.isKeyPressed(Keys.W)){
+		if(Gdx.input.isKeyPressed(Keys.W) || Gdx.input.isKeyPressed(Keys.UP)){
 			fighter.moveUp();
 		}
-		if(Gdx.input.isKeyPressed(Keys.S)){
+		if(Gdx.input.isKeyPressed(Keys.S) || Gdx.input.isKeyPressed(Keys.DOWN)){
 			fighter.moveDown();
 		}
 		if(Gdx.input.isButtonPressed(Buttons.LEFT))
