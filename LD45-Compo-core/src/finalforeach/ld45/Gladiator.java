@@ -28,9 +28,9 @@ public class Gladiator extends Fighter
 	
 	float hitTimer;
 	int i,j;
-	public Gladiator(float x,float y)
+	public Gladiator(String team,float x,float y)
 	{
-		super(x,y);
+		super(team,x,y);
 	}
 	
 	@Override
@@ -39,7 +39,7 @@ public class Gladiator extends Fighter
 		hitTimer=0.2f;
 		owSounds[MathUtils.random(0, owSounds.length-1)].play();
 	}
-	float animationTime=0, atkTimer=-1, deathTime=0;
+	float animationTime=0, atkTimer=-1, deathTime=0,rollTimer=-1;
 	@Override
 	public void update(float deltaTime) {
 		super.update(deltaTime);
@@ -52,7 +52,7 @@ public class Gladiator extends Fighter
 			j = Math.min((int)deathTime,2);
 		}else
 		{
-			if(isMoving)
+			if(isMoving&&rollTimer==-1)
 			{
 				switch(((int)animationTime) % 4)
 				{
@@ -75,6 +75,18 @@ public class Gladiator extends Fighter
 					}
 				}
 			}
+			if(rollTimer>-1)
+			{
+				rollTimer+=deltaTime*3;
+				i=3;
+				j=(int)(rollTimer*4);
+				if(rollTimer>1)
+				{
+					rollTimer=-1;
+					i=0;
+					j=0;
+				}
+			}
 		}
 	}
 	@Override
@@ -83,28 +95,34 @@ public class Gladiator extends Fighter
 	}
 
 	@Override
-	public void draw(SpriteBatch batch) {
+	public final void draw(SpriteBatch batch) {
 		if(hitTimer>0){
 			batch.setColor(1, 0, 0, 1);	
 		}
-		
-		//batch.draw(texReg[0][0], x-32, y,64,64,0,0,64,64,movedLeftLast,false);
-		batch.draw(texReg[i][j],x-32,y,32,0,64,64,lookingLeft?-1:1,1,0);
+		 drawWarrior(batch);
 		if(hitTimer>0){
 			batch.setColor(1, 1, 1, 1);	
 		}
 	}
-
+	protected void drawWarrior(SpriteBatch batch)
+	{
+		batch.draw(texReg[i][j],x-32,y,32,0,64,64,lookingLeft?-1:1,1,0);
+	}
 	@Override
 	public void onAttack()
 	{
-		if(atkTimer==-1)
+		if(atkTimer==-1 && rollTimer==-1)
 		{
 			atkTimer=0;
 			swishSounds[MathUtils.random(0, swishSounds.length-1)].play();
 			float velX = lookingLeft? -100:100;
-			Game.particles.add(new PunchParticle(x+(lookingLeft?-14:14), y+24, velX, 0,this));
+			Game.particles.add(new PunchParticle(team,x+(lookingLeft?-14:14), y+24, velX, 0,this));
 		}
+	}
+
+	@Override
+	public void onRoll() {
+		rollTimer=0;
 	}
 
 

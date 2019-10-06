@@ -5,10 +5,12 @@ import com.badlogic.gdx.math.Rectangle;
 
 public abstract class Fighter
 {
+	String team;
 	float hp, invulnerableTime;
 	float x, y;
 	Rectangle rect;
-	public Fighter(float x, float y) {
+	public Fighter(String team,float x, float y) {
+		this.team=team;
 		this.x=x;
 		this.y=y;
 		this.hp=getMaxHP();
@@ -45,6 +47,15 @@ public abstract class Fighter
 	public void moveDown(){
 		movingDown=true;
 	}
+	public void roll()
+	{
+		if(invulnerableTime<=0)
+		{
+			onRoll();
+			invulnerableTime=0.5f;
+		}
+	}
+	public abstract void onRoll();
 	public void update(float deltaTime)
 	{
 		invulnerableTime-=deltaTime;

@@ -65,6 +65,7 @@ public class AIController {
 	public void attackPlayer(float interval) 
 	{
 		if(fighter.isDead())return;
+		if(Game.player.fighter.isDead())return;
 		float tx = Game.player.fighter.x,ty = Game.player.fighter.y;
 		float dxSq = (fighter.x- tx)*(fighter.x- tx) ;
 		float dySq = (fighter.y- ty)*(fighter.y- ty);

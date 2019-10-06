@@ -40,7 +40,7 @@ public class Game extends ApplicationAdapter {
 		ais = new Array<AIController>();
 		
 		healthBar = new HealthBar();
-		Fighter playerFighter = new Gladiator(30, 30);
+		Fighter playerFighter = new Gladiator("Player",30, 30);
 		player = new Player(playerFighter);
 		//Fighter enemyFighter = new Gladiator(90,30);
 		

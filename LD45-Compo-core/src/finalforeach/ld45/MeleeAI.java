@@ -10,6 +10,9 @@ public class MeleeAI extends AIController {
 		super.update(deltaTime);
 		lookAtPlayer();
 		followPlayer(64);
-		attackPlayer(1);
+		if(fighter.invulnerableTime<=0)
+		{
+			attackPlayer(1);	
+		}
 	}
 }

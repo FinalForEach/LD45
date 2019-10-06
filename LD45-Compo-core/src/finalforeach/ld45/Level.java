@@ -14,6 +14,7 @@ class Level1 extends Level
 	@Override
 	public void spawnWarriors() 
 	{
-		addWarrior(new MeleeAI(new Gladiator(1024,50)));
+		//addWarrior(new MeleeAI(new Gladiator("Enemy",1024,50)));
+		addWarrior(new MeleeAI(new GladiatorTrident("Enemy",1024,20)));
 	}
 }

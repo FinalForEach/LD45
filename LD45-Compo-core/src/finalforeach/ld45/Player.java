@@ -36,6 +36,10 @@ public class Player {
 		{
 			fighter.attack();
 		}
+		if(Gdx.input.isButtonPressed(Buttons.RIGHT))
+		{
+			fighter.roll();
+		}
 		if(screenCoords.x>fighter.x)
 		{
 			fighter.lookingLeft=false;
