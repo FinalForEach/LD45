@@ -25,7 +25,12 @@ public abstract class Fighter
 	}
 	protected void onHit(float dmg)
 	{
+		boolean isDead =isDead();
 		hp-=dmg;
+		if(!isDead&&hp<=0)//Whether fighter just died.
+		{
+			onDeath();
+		}
 	}
 	
 	public abstract float getMaxHP();
@@ -95,5 +100,7 @@ public abstract class Fighter
 	public boolean isDead()
 	{
 		return hp<=0;
+	}
+	public void onDeath() {
 	}
 }

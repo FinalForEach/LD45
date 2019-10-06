@@ -6,7 +6,7 @@ import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.math.Vector3;
 
 public class Player {
-	final Fighter fighter;
+	Fighter fighter;
 	private final Vector3 screenCoords = new Vector3(0,0,0);
 	public Player(Fighter fighter)
 	{

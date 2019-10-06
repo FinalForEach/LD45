@@ -22,12 +22,17 @@ public class GladiatorTrident extends Gladiator
 	@Override
 	public void onAttack()
 	{
-		if(atkTimer==-1)
+		if(canAttack())
 		{
 			atkTimer=0;
 			swishSounds[MathUtils.random(0, swishSounds.length-1)].play();
 			float velX = lookingLeft? -150:150;
 			Game.particles.add(new TridentParticle(team,x+(lookingLeft?-56:0), y+24, velX, 0,this));
 		}
+	}
+	@Override
+	public void onDeath()
+	{
+		Game.items.add(new ItemTrident(x-64, y));
 	}
 }

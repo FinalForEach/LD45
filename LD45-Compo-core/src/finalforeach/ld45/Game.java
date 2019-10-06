@@ -24,6 +24,7 @@ public class Game extends ApplicationAdapter {
 	public static Array<Particle> particles;
 	public static Array<Fighter> fighters;
 	public static Array<AIController> ais;
+	public static Array<Item> items;
 	public static Player player;
 	HealthBar healthBar;
 	Level currentLevel;
@@ -38,6 +39,7 @@ public class Game extends ApplicationAdapter {
 		fighters = new Array<Fighter>();
 		particles = new Array<Particle>();
 		ais = new Array<AIController>();
+		items =new Array<Item>();
 		
 		healthBar = new HealthBar();
 		Fighter playerFighter = new Gladiator("Player",30, 30);
@@ -80,6 +82,13 @@ public class Game extends ApplicationAdapter {
 			f.y=MathUtils.clamp(f.y, 0, 100);
 			f.x=MathUtils.clamp(f.x, 64, 2048-64);
 		}
+		Array<Item> deadItems = new Array<Item>();
+		for(Item item : items)
+		{
+			item.update(deltaTime);
+			if(item.pickedUp)deadItems.add(item);
+		}
+		items.removeAll(deadItems, false);
 		Array<Particle> deadParticles = new Array<Particle>();
 		for(Particle p : particles)
 		{
@@ -124,7 +133,10 @@ public class Game extends ApplicationAdapter {
 		{
 			f.draw(batch);
 		}
-
+		for(Item item : items)
+		{
+			item.draw(batch);
+		}
 		for(Particle p : particles)
 		{
 			p.draw(batch);

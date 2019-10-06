@@ -69,7 +69,7 @@ public class Gladiator extends Fighter
 				if(atkTimer>0.2)
 				{
 					i=0;
-					if(atkTimer>0.3)
+					if(atkTimer>getAttackCooldown())
 					{
 						atkTimer=-1;
 					}
@@ -77,6 +77,8 @@ public class Gladiator extends Fighter
 			}
 			if(rollTimer>-1)
 			{
+				float velX = lookingLeft? -100:100;
+				x+=velX*deltaTime;
 				rollTimer+=deltaTime*3;
 				i=3;
 				j=(int)(rollTimer*4);
@@ -108,10 +110,14 @@ public class Gladiator extends Fighter
 	{
 		batch.draw(texReg[i][j],x-32,y,32,0,64,64,lookingLeft?-1:1,1,0);
 	}
+	public boolean canAttack()
+	{
+		return (atkTimer==-1 && rollTimer==-1);
+	}
 	@Override
 	public void onAttack()
 	{
-		if(atkTimer==-1 && rollTimer==-1)
+		if(canAttack())
 		{
 			atkTimer=0;
 			swishSounds[MathUtils.random(0, swishSounds.length-1)].play();
@@ -125,5 +131,8 @@ public class Gladiator extends Fighter
 		rollTimer=0;
 	}
 
-
+	public float getAttackCooldown()
+	{
+		return 0.3f;
+	}
 }
