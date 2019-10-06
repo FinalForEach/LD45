@@ -41,4 +41,8 @@ public class GladiatorArcher extends Gladiator {
 	{
 		return 1f;
 	}
+	@Override
+	public float getSpeed() {
+		return 100;
+	}
 }

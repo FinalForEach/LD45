@@ -98,6 +98,10 @@ public class Game extends ApplicationAdapter {
 			{
 				currentLevel=Level.levels[Level.curLvlIndex];
 				currentLevel.spawnWarriors();
+				if(player.fighter.hp<player.fighter.getMaxHP())
+				{
+					player.fighter.hp=player.fighter.getMaxHP();
+				}
 				fighters.removeAll(deadFighters, false);
 			}
 		}
