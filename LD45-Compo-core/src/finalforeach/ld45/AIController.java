@@ -2,6 +2,8 @@ package finalforeach.ld45;
 
 public class AIController {
 	Fighter fighter;
+	float followCooldown=-1;
+	float atkCooldown;
 	public AIController(Fighter fighter)
 	{
 		this.fighter=fighter;
@@ -9,34 +11,42 @@ public class AIController {
 	public void update(float deltaTime)
 	{
 		atkCooldown-=deltaTime;
+		followCooldown-=deltaTime;
+		if(followCooldown<=0)followCooldown=-1;
 	}
 	public void lookAtPlayer()
 	{
-		float tx = Game.player.fighter.x,ty = Game.player.fighter.y;
+		if(fighter.isDead())return;
+		float tx = Game.player.fighter.x;
 		if(fighter.x-tx>1)
 		{
-			fighter.movedLeftLast=true;
+			fighter.lookingLeft=true;
 		}
 		if(tx-fighter.x>1)
 		{
-			fighter.movedLeftLast=false;
+			fighter.lookingLeft=false;
 		}
 	}
 	public void followPlayer(float maxDist)
 	{
+		if(fighter.isDead())return;
+		if(followCooldown>0)return;
 		float tx = Game.player.fighter.x,ty = Game.player.fighter.y;
 		float dxSq = (fighter.x- tx)*(fighter.x- tx) ;
 		float dySq = (fighter.y- ty)*(fighter.y- ty);
 		float distSq = dxSq+dySq;
 		if(distSq>maxDist*maxDist)
 		{
+			followCooldown=-1;
 			if(fighter.x-tx>1)
 			{
 				fighter.moveLeft();
+				fighter.lookingLeft=true;
 			}
 			if(tx-fighter.x>1)
 			{
 				fighter.moveRight();
+				fighter.lookingLeft=false;
 			}
 			if(fighter.y-ty>1)
 			{
@@ -46,13 +56,20 @@ public class AIController {
 			{
 				fighter.moveUp();
 			}
+		}else
+		{
+			if(followCooldown==-1)
+				followCooldown=1;
 		}
 	}
-	float atkCooldown;
 	public void attackPlayer(float interval) 
 	{
-		Fighter target = Game.player.fighter;
-		if(atkCooldown<=0 && !target.isDead())
+		if(fighter.isDead())return;
+		float tx = Game.player.fighter.x,ty = Game.player.fighter.y;
+		float dxSq = (fighter.x- tx)*(fighter.x- tx) ;
+		float dySq = (fighter.y- ty)*(fighter.y- ty);
+		double dist = Math.sqrt(dxSq+dySq);
+		if(atkCooldown<=0 && dist<128)
 		{
 			fighter.attack();
 			atkCooldown=interval;

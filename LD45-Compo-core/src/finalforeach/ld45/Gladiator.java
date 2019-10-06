@@ -89,7 +89,7 @@ public class Gladiator extends Fighter
 		}
 		
 		//batch.draw(texReg[0][0], x-32, y,64,64,0,0,64,64,movedLeftLast,false);
-		batch.draw(texReg[i][j],x-32,y,32,0,64,64,movedLeftLast?-1:1,1,0);
+		batch.draw(texReg[i][j],x-32,y,32,0,64,64,lookingLeft?-1:1,1,0);
 		if(hitTimer>0){
 			batch.setColor(1, 1, 1, 1);	
 		}
@@ -102,8 +102,8 @@ public class Gladiator extends Fighter
 		{
 			atkTimer=0;
 			swishSounds[MathUtils.random(0, swishSounds.length-1)].play();
-			float velX = movedLeftLast? -100:100;
-			Game.particles.add(new PunchParticle(x+(movedLeftLast?-14:14), y+24, velX, 0,this));
+			float velX = lookingLeft? -100:100;
+			Game.particles.add(new PunchParticle(x+(lookingLeft?-14:14), y+24, velX, 0,this));
 		}
 	}
 

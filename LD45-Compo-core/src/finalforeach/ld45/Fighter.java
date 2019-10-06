@@ -32,14 +32,12 @@ public abstract class Fighter
 	boolean isMoving;
 	boolean canMove;
 	
-	boolean movedLeftLast;
+	boolean lookingLeft;
 	public void moveLeft(){
 		movingLeft=true;
-		movedLeftLast=true;
 	}
 	public void moveRight(){
 		movingRight=true;
-		movedLeftLast=false;
 	}
 	public void moveUp(){
 		movingUp=true;

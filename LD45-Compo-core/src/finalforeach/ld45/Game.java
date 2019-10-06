@@ -18,8 +18,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 public class Game extends ApplicationAdapter {
 	SpriteBatch batch;
 	Texture bkgTex;
-	OrthographicCamera cam;
-	OrthographicCamera uiCam;
+	public static OrthographicCamera cam, uiCam;
 	Viewport viewport;
 	Viewport uiViewport;
 	public static Array<Particle> particles;
@@ -27,6 +26,7 @@ public class Game extends ApplicationAdapter {
 	public static Array<AIController> ais;
 	public static Player player;
 	HealthBar healthBar;
+	Level currentLevel;
 	@Override
 	public void create () {
 		cam = new OrthographicCamera(512,512);
@@ -42,14 +42,16 @@ public class Game extends ApplicationAdapter {
 		healthBar = new HealthBar();
 		Fighter playerFighter = new Gladiator(30, 30);
 		player = new Player(playerFighter);
-		Fighter enemyFighter = new Gladiator(90,30);
+		//Fighter enemyFighter = new Gladiator(90,30);
 		
 		fighters.add(playerFighter);
-		fighters.add(enemyFighter);
+		//fighters.add(enemyFighter);
+		currentLevel = new Level1();
+		currentLevel.spawnWarriors();
 		
 		
-		MeleeAI enemyAI = new MeleeAI(enemyFighter); 
-		ais.add(enemyAI);
+		//MeleeAI enemyAI = new MeleeAI(enemyFighter); 
+		//ais.add(enemyAI);
 		
 		cam.zoom=0.5f;
 		uiCam.zoom=0.5f;
