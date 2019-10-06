@@ -1,18 +1,18 @@
 package finalforeach.ld45;
 
-public class MeleeAI extends AIController {
+public class RangedAI extends AIController {
 
-	public MeleeAI(Fighter fighter) {
+	public RangedAI(Fighter fighter) {
 		super(fighter);
 	}
 	@Override
 	public void update(float deltaTime) {
 		super.update(deltaTime);
 		lookAtPlayer();
-		followPlayer(64);
+		followPlayer(128);
 		if(fighter.invulnerableTime<=0)
 		{
-			attackPlayer(1,128);	
+			attackPlayer(1,256);	
 		}
 	}
 }

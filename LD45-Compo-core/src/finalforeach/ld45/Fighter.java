@@ -103,4 +103,6 @@ public abstract class Fighter
 	}
 	public void onDeath() {
 	}
+	public void dropItem() {
+	}
 }

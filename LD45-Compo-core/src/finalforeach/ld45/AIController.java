@@ -32,10 +32,8 @@ public class AIController {
 		if(fighter.isDead())return;
 		if(followCooldown>0)return;
 		float tx = Game.player.fighter.x,ty = Game.player.fighter.y;
-		float dxSq = (fighter.x- tx)*(fighter.x- tx) ;
-		float dySq = (fighter.y- ty)*(fighter.y- ty);
-		float distSq = dxSq+dySq;
-		if(distSq>maxDist*maxDist)
+		float dy = Math.abs(ty - fighter.y);
+		if(getDistToPlayer()>maxDist || dy>20)
 		{
 			followCooldown=-1;
 			if(fighter.x-tx>1)
@@ -62,15 +60,18 @@ public class AIController {
 				followCooldown=1;
 		}
 	}
-	public void attackPlayer(float interval) 
+	public double getDistToPlayer()
 	{
-		if(fighter.isDead())return;
-		if(Game.player.fighter.isDead())return;
 		float tx = Game.player.fighter.x,ty = Game.player.fighter.y;
 		float dxSq = (fighter.x- tx)*(fighter.x- tx) ;
 		float dySq = (fighter.y- ty)*(fighter.y- ty);
-		double dist = Math.sqrt(dxSq+dySq);
-		if(atkCooldown<=0 && dist<128)
+		return Math.sqrt(dxSq+dySq);
+	}
+	public void attackPlayer(float interval,float maxDist) 
+	{
+		if(fighter.isDead())return;
+		if(Game.player.fighter.isDead())return;
+		if(atkCooldown<=0 && getDistToPlayer()<maxDist)
 		{
 			fighter.attack();
 			atkCooldown=interval;

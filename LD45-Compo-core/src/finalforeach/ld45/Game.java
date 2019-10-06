@@ -42,7 +42,7 @@ public class Game extends ApplicationAdapter {
 		items =new Array<Item>();
 		
 		healthBar = new HealthBar();
-		Fighter playerFighter = new Gladiator("Player",30, 30);
+		Fighter playerFighter = new GladiatorThracian("Player",30, 30);
 		player = new Player(playerFighter);
 		//Fighter enemyFighter = new Gladiator(90,30);
 		
@@ -71,6 +71,7 @@ public class Game extends ApplicationAdapter {
 				Gdx.graphics.setWindowedMode(1280, 720);
 			}
 		}
+		Item.playerPickingItemUp=false;
 		for(AIController ai : ais)
 		{
 			ai.update(deltaTime);

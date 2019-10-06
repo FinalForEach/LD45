@@ -1,5 +1,7 @@
 package finalforeach.ld45;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -10,6 +12,7 @@ public abstract class Item {
 	{
 		texReg = TextureRegion.split(new Texture("items.png"), 64, 64);
 	}
+	public static boolean playerPickingItemUp;
 	float x, y;
 	float groundY;
 	int i,j;
@@ -38,11 +41,16 @@ public abstract class Item {
 			fallSpeed=-fallSpeed/8;
 		}
 		bounds.set(x,y,64,64);
-		if(Game.player.fighter.rect.overlaps(bounds))
+		if(Gdx.input.isKeyJustPressed(Keys.SPACE))
 		{
-			if(onPickup())
+			if(Game.player.fighter.rect.overlaps(bounds) && !pickedUp && canBePickedUp())
 			{
-				pickedUp=true;
+				System.out.println("Picking up item: "+getClass().getSimpleName());
+				if(onPickup())
+				{
+					pickedUp=true;
+					playerPickingItemUp=true;
+				}
 			}
 		}
 	}
@@ -52,5 +60,9 @@ public abstract class Item {
 	public void draw(SpriteBatch batch)
 	{
 		batch.draw(texReg[i][j],x,y);
+	}
+	public boolean canBePickedUp()
+	{
+		return !playerPickingItemUp&&(y-groundY<=1f);
 	}
 }

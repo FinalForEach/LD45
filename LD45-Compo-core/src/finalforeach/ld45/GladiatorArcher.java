@@ -32,6 +32,9 @@ public class GladiatorArcher extends Gladiator {
 	@Override
 	public void onDeath()
 	{
+		dropItem();
+	}
+	public void dropItem() {
 		Game.items.add(new ItemBow(x-64, y));
 	}
 	public float getAttackCooldown()
