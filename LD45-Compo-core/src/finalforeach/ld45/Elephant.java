@@ -12,11 +12,10 @@ public class Elephant extends Fighter
 	float hitTimer;
 	int i,j;
 	float animationTime=0, atkTimer=-1, deathTime=0;
-	public static TextureRegion[][] texReg;
+	public static TextureRegion[][] texReg = TextureRegion.split(new Texture("Elephant.png"), 128, 128);
 	public static Sound deathSound = Gdx.audio.newSound(Gdx.files.internal("elephant-death.ogg"));
 	public static Sound[] owSounds = new Sound[2];
-	{
-		texReg = TextureRegion.split(new Texture("Elephant.png"), 128, 128);
+	static {
 		for(int i =0;i<owSounds.length;i++)
 		{
 			 owSounds[i]= Gdx.audio.newSound(Gdx.files.internal("elephant-hurt-"+(i+1)+".ogg"));	

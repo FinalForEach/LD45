@@ -8,10 +8,9 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 
 public abstract class Item {
-	public static TextureRegion[][] texReg;
-	{
-		texReg = TextureRegion.split(new Texture("items.png"), 64, 64);
-	}
+	public static Texture itemsTex= new Texture("items.png");
+	public static TextureRegion[][] texReg = TextureRegion.split(itemsTex, 64, 64);
+
 	public static boolean playerPickingItemUp;
 	float x, y;
 	float groundY;

@@ -9,12 +9,11 @@ import com.badlogic.gdx.math.MathUtils;
 
 public class Gladiator extends Fighter
 {
-	public static TextureRegion[][] texReg;
+	public static Texture nakedTex = new Texture("gladiator-naked.png");
+	public static TextureRegion[][] texReg = TextureRegion.split(nakedTex, 64, 64);
 	public static Sound[] owSounds = new Sound[4];
 	public static Sound[] swishSounds = new Sound[4];
-	
-	{
-		texReg = TextureRegion.split(new Texture("gladiator-naked.png"), 64, 64);
+	static{
 		for(int i =0;i<owSounds.length;i++)
 		{
 			 owSounds[i]= Gdx.audio.newSound(Gdx.files.internal("ow-"+(i+1)+".ogg"));	

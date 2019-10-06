@@ -7,10 +7,8 @@ import com.badlogic.gdx.math.MathUtils;
 
 public class GladiatorThracian extends Gladiator
 {
-	public static TextureRegion[][] thracianTexReg;
-	{
-		thracianTexReg = TextureRegion.split(new Texture("gladiator-thracian.png"), 64, 64);
-	}
+	public static TextureRegion[][] thracianTexReg = TextureRegion.split(new Texture("gladiator-thracian.png"), 64, 64);
+
 	public GladiatorThracian(String team,float x, float y) {
 		super(team,x, y);
 	}

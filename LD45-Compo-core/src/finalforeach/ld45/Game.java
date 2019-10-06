@@ -44,7 +44,7 @@ public class Game extends ApplicationAdapter {
 		items =new Array<Item>();
 		
 		healthBar = new HealthBar();
-		Fighter playerFighter = new GladiatorThracian("Player",30, 30);
+		Fighter playerFighter = new Gladiator("Player",30, 30);
 		player = new Player(playerFighter);
 		//Fighter enemyFighter = new Gladiator(90,30);
 		
@@ -106,10 +106,13 @@ public class Game extends ApplicationAdapter {
 			}
 		}
 		Item.playerPickingItemUp=false;
+		Array<AIController> deadAIs = new Array<AIController>();
 		for(AIController ai : ais)
 		{
 			ai.update(deltaTime);
+			if(ai.fighter.isDead())deadAIs.add(ai);
 		}
+		ais.removeAll(deadAIs, false);
 		for(Fighter f : fighters)
 		{
 			f.update(deltaTime);
@@ -199,17 +202,35 @@ public class Game extends ApplicationAdapter {
 		if(Game.player.fighter.isDead())
 		{
 			batch.draw(gameOverTex, -256, -256);
+			if(Gdx.input.isKeyJustPressed(Keys.SPACE))
+			{
+				resetGame();
+			}
 		}
 		else
 		{
 			if(Level.curLvlIndex>=Level.levels.length)
 			{
 				batch.draw(youWinTex, -256, -256);
+				if(Gdx.input.isKeyJustPressed(Keys.SPACE))
+				{
+					resetGame();
+				}
 			}
 		}
 		batch.end();
 	}
-	
+	public void resetGame()
+	{
+		Level.curLvlIndex=0;
+		Game.player.fighter = new Gladiator("Player", 30, 30);
+		items.clear();
+		fighters.clear();
+		ais.clear();
+		fighters.add(Game.player.fighter);
+		currentLevel = Level.levels[Level.curLvlIndex];
+		currentLevel.spawnWarriors();
+	}
 	@Override
 	public void dispose () {
 		batch.dispose();

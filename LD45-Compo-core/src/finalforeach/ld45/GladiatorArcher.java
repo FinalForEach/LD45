@@ -6,10 +6,8 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
 
 public class GladiatorArcher extends Gladiator {
-	public static TextureRegion[][] archerTexReg;
-	{
-		archerTexReg = TextureRegion.split(new Texture("gladiator-archer.png"), 64, 64);
-	}
+	public static Texture archerTex=new Texture("gladiator-archer.png"); 
+	public static TextureRegion[][] archerTexReg= TextureRegion.split(archerTex, 64, 64);
 	public GladiatorArcher(String team,float x, float y) {
 		super(team,x, y);
 	}

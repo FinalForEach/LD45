@@ -8,13 +8,9 @@ import com.badlogic.gdx.math.Vector2;
 
 public abstract class Particle 
 {
-	public static Texture particleTex;
-	public static TextureRegion[][] texReg;
+	public static Texture particleTex = new Texture("particles.png");
+	public static TextureRegion[][] texReg = TextureRegion.split(particleTex, 16, 16);
 	
-	{
-		particleTex = new Texture("particles.png");
-		texReg = TextureRegion.split(particleTex, 16, 16);
-	}
 	
 	Vector2 pos, vel;
 	final int i,j;
