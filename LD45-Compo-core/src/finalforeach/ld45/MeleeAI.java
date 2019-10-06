@@ -8,6 +8,7 @@ public class MeleeAI extends AIController {
 	@Override
 	public void update(float deltaTime) {
 		super.update(deltaTime);
+		lookAtPlayer();
 		followPlayer(64);
 		attackPlayer(1);
 	}

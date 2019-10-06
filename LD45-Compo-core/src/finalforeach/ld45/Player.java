@@ -26,7 +26,7 @@ public class Player {
 		}
 		if(Gdx.input.isKeyJustPressed(Keys.P))
 		{
-			fighter.hit(1);
+			fighter.hp=fighter.getMaxHP();
 		}
 		if(Gdx.input.isButtonPressed(Buttons.LEFT))
 		{

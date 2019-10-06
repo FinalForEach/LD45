@@ -96,7 +96,7 @@ public class Gladiator extends Fighter
 	}
 
 	@Override
-	public void attack()
+	public void onAttack()
 	{
 		if(atkTimer==-1)
 		{

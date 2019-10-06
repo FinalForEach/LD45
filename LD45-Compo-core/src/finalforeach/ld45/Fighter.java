@@ -77,7 +77,12 @@ public abstract class Fighter
 		return 90;
 	}
 	public abstract void draw(SpriteBatch batch);
-	public abstract void attack();
+	public void attack()
+	{
+		if(isDead())return;
+		onAttack();
+	}
+	public abstract void onAttack();
 	public boolean isDead()
 	{
 		return hp<=0;

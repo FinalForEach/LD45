@@ -19,22 +19,27 @@ public class Game extends ApplicationAdapter {
 	SpriteBatch batch;
 	Texture bkgTex;
 	OrthographicCamera cam;
+	OrthographicCamera uiCam;
 	Viewport viewport;
+	Viewport uiViewport;
 	public static Array<Particle> particles;
 	public static Array<Fighter> fighters;
 	public static Array<AIController> ais;
 	public static Player player;
+	HealthBar healthBar;
 	@Override
 	public void create () {
 		cam = new OrthographicCamera(512,512);
+		uiCam = new OrthographicCamera(512,512);
 		viewport = new FitViewport(1280, 720,cam);
+		uiViewport = new FitViewport(1280, 720,uiCam);
 		batch = new SpriteBatch();
 		bkgTex = new Texture("background.png");
 		fighters = new Array<Fighter>();
 		particles = new Array<Particle>();
 		ais = new Array<AIController>();
 		
-		
+		healthBar = new HealthBar();
 		Fighter playerFighter = new Gladiator(30, 30);
 		player = new Player(playerFighter);
 		Fighter enemyFighter = new Gladiator(90,30);
@@ -47,6 +52,7 @@ public class Game extends ApplicationAdapter {
 		ais.add(enemyAI);
 		
 		cam.zoom=0.5f;
+		uiCam.zoom=0.5f;
 	}
 
 	public void update(float deltaTime)
@@ -89,6 +95,7 @@ public class Game extends ApplicationAdapter {
 	}
     public void resize(int width, int height) {
         viewport.update(width, height);
+        uiViewport.update(width, height);
     }
     Comparator<Fighter> fighterComparator =new Comparator<Fighter>(){
 
@@ -101,6 +108,7 @@ public class Game extends ApplicationAdapter {
 		update(Gdx.graphics.getDeltaTime());
 		Gdx.gl.glClearColor(0, 0, 0, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
 		
 		cam.update();
 		
@@ -119,6 +127,15 @@ public class Game extends ApplicationAdapter {
 		{
 			p.draw(batch);
 		}
+		batch.end();
+		
+		uiCam.position.x=320;
+		uiCam.position.y=-128-32-4;
+		uiCam.update();
+		batch.setProjectionMatrix(uiCam.projection);
+		batch.setTransformMatrix(uiCam.view);
+		batch.begin();
+		healthBar.draw(batch);
 		batch.end();
 	}
 	
