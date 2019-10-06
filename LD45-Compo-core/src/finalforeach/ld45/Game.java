@@ -5,6 +5,7 @@ import java.util.Comparator;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -28,6 +29,8 @@ public class Game extends ApplicationAdapter {
 	public static Player player;
 	HealthBar healthBar;
 	Level currentLevel;
+	Music bkgMusic;
+	Music winMusic, loseMusic;
 	@Override
 	public void create () {
 		cam = new OrthographicCamera(512,512);
@@ -46,21 +49,22 @@ public class Game extends ApplicationAdapter {
 		healthBar = new HealthBar();
 		Fighter playerFighter = new Gladiator("Player",30, 30);
 		player = new Player(playerFighter);
-		//Fighter enemyFighter = new Gladiator(90,30);
 		
 		fighters.add(playerFighter);
-		//fighters.add(enemyFighter);
 		currentLevel = Level.levels[Level.curLvlIndex];
 		currentLevel.spawnWarriors();
 		
 		
-		//MeleeAI enemyAI = new MeleeAI(enemyFighter); 
-		//ais.add(enemyAI);
-		
 		cam.zoom=0.5f;
 		uiCam.zoom=0.5f;
+		bkgMusic = Gdx.audio.newMusic(Gdx.files.internal("March of the Gladiator.ogg"));
+		bkgMusic.play();
+		bkgMusic.setLooping(true);
+		winMusic = Gdx.audio.newMusic(Gdx.files.internal("You win!.ogg"));
+		loseMusic = Gdx.audio.newMusic(Gdx.files.internal("Game Over.ogg"));
 	}
-
+	boolean mute=false;
+	boolean gameJustEnded=false;
 	public void update(float deltaTime)
 	{
 		if(Gdx.input.isKeyJustPressed(Keys.F11))
@@ -71,6 +75,17 @@ public class Game extends ApplicationAdapter {
 			}else
 			{
 				Gdx.graphics.setWindowedMode(1280, 720);
+			}
+		}
+		if(Gdx.input.isKeyJustPressed(Keys.M))
+		{
+			mute=!mute;
+			if(mute)
+			{
+				bkgMusic.setVolume(0);
+			}else
+			{
+				bkgMusic.setVolume(1);
 			}
 		}
 		boolean allDead=fighters.size>0;//Only count if there ARE fighters
@@ -201,6 +216,13 @@ public class Game extends ApplicationAdapter {
 		batch.begin();
 		if(Game.player.fighter.isDead())
 		{
+
+			if(!gameJustEnded)
+			{
+				bkgMusic.stop();
+				loseMusic.play();
+				gameJustEnded=true;
+			}
 			batch.draw(gameOverTex, -256, -256);
 			if(Gdx.input.isKeyJustPressed(Keys.SPACE))
 			{
@@ -211,6 +233,12 @@ public class Game extends ApplicationAdapter {
 		{
 			if(Level.curLvlIndex>=Level.levels.length)
 			{
+				if(!gameJustEnded)
+				{
+					bkgMusic.stop();
+					winMusic.play();
+					gameJustEnded=true;
+				}
 				batch.draw(youWinTex, -256, -256);
 				if(Gdx.input.isKeyJustPressed(Keys.SPACE))
 				{
@@ -230,6 +258,10 @@ public class Game extends ApplicationAdapter {
 		fighters.add(Game.player.fighter);
 		currentLevel = Level.levels[Level.curLvlIndex];
 		currentLevel.spawnWarriors();
+		winMusic.stop();
+		loseMusic.stop();
+		bkgMusic.play();
+		gameJustEnded=false;
 	}
 	@Override
 	public void dispose () {
