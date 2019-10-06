@@ -31,6 +31,7 @@ public class Game extends ApplicationAdapter {
 	Level currentLevel;
 	Music bkgMusic;
 	Music winMusic, loseMusic;
+	public static Texture[] lvlTextures = new Texture[10];
 	@Override
 	public void create () {
 		cam = new OrthographicCamera(512,512);
@@ -62,6 +63,11 @@ public class Game extends ApplicationAdapter {
 		bkgMusic.setLooping(true);
 		winMusic = Gdx.audio.newMusic(Gdx.files.internal("You win!.ogg"));
 		loseMusic = Gdx.audio.newMusic(Gdx.files.internal("Game Over.ogg"));
+		
+		for(int i=0;i<lvlTextures.length;i++)
+		{
+			lvlTextures[i] = new Texture("Level-"+(i+1)+".png");
+		}
 	}
 	boolean mute=false;
 	boolean gameJustEnded=false;
@@ -245,6 +251,10 @@ public class Game extends ApplicationAdapter {
 					resetGame();
 				}
 			}
+		}
+		if(Level.curLvlIndex<lvlTextures.length)
+		{
+			batch.draw(lvlTextures[Level.curLvlIndex], -64, 256-64,128,128);
 		}
 		batch.end();
 	}
