@@ -2,6 +2,8 @@ package finalforeach.ld45;
 
 public abstract class Level 
 {
+	public static Level[] levels = new Level[]{new Level1()};
+	public static int curLvlIndex=0;
 	public abstract void spawnWarriors();
 	protected void addWarrior(AIController aiFighter)
 	{

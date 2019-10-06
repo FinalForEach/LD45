@@ -9,7 +9,7 @@ public class MeleeAI extends AIController {
 	public void update(float deltaTime) {
 		super.update(deltaTime);
 		lookAtPlayer();
-		followPlayer(64);
+		followPlayer(32);
 		if(fighter.invulnerableTime<=0)
 		{
 			attackPlayer(1,128);	

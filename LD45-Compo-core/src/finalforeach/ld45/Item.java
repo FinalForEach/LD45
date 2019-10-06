@@ -45,7 +45,6 @@ public abstract class Item {
 		{
 			if(Game.player.fighter.rect.overlaps(bounds) && !pickedUp && canBePickedUp())
 			{
-				System.out.println("Picking up item: "+getClass().getSimpleName());
 				if(onPickup())
 				{
 					pickedUp=true;

@@ -17,7 +17,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 
 public class Game extends ApplicationAdapter {
 	SpriteBatch batch;
-	Texture bkgTex;
+	public static Texture bkgTex, youWinTex, gameOverTex;
 	public static OrthographicCamera cam, uiCam;
 	Viewport viewport;
 	Viewport uiViewport;
@@ -36,6 +36,8 @@ public class Game extends ApplicationAdapter {
 		uiViewport = new FitViewport(1280, 720,uiCam);
 		batch = new SpriteBatch();
 		bkgTex = new Texture("background.png");
+		youWinTex = new Texture("YouWin.png");
+		gameOverTex = new Texture("GameOver.png");
 		fighters = new Array<Fighter>();
 		particles = new Array<Particle>();
 		ais = new Array<AIController>();
@@ -48,7 +50,7 @@ public class Game extends ApplicationAdapter {
 		
 		fighters.add(playerFighter);
 		//fighters.add(enemyFighter);
-		currentLevel = new Level1();
+		currentLevel = Level.levels[Level.curLvlIndex];
 		currentLevel.spawnWarriors();
 		
 		
@@ -70,6 +72,29 @@ public class Game extends ApplicationAdapter {
 			{
 				Gdx.graphics.setWindowedMode(1280, 720);
 			}
+		}
+		boolean allDead=true;
+		Array<Fighter> deadFighters = new Array<Fighter>();
+		for(Fighter f : fighters)
+		{
+			if(f!=player.fighter)
+			{
+				if(f.isDead())
+				{
+					deadFighters.add(f);
+				}else
+				{
+					allDead=false;
+				}
+			}
+			
+		}
+		if(allDead && Level.curLvlIndex<Level.levels.length)
+		{
+			Level.curLvlIndex++;
+			if(Level.curLvlIndex<Level.levels.length)
+			{currentLevel=Level.levels[Level.curLvlIndex];
+			fighters.removeAll(deadFighters, false);}
 		}
 		Item.playerPickingItemUp=false;
 		for(AIController ai : ais)
@@ -146,11 +171,33 @@ public class Game extends ApplicationAdapter {
 		
 		uiCam.position.x=320;
 		uiCam.position.y=-128-32-4;
+		uiCam.zoom=0.5f;
 		uiCam.update();
 		batch.setProjectionMatrix(uiCam.projection);
 		batch.setTransformMatrix(uiCam.view);
 		batch.begin();
 		healthBar.draw(batch);
+		batch.end();
+
+		
+		uiCam.position.x=0;
+		uiCam.position.y=0;
+		uiCam.zoom=1f;
+		uiCam.update();
+		batch.setProjectionMatrix(uiCam.projection);
+		batch.setTransformMatrix(uiCam.view);
+		batch.begin();
+		if(Game.player.fighter.isDead())
+		{
+			batch.draw(gameOverTex, -256, -256);
+		}
+		else
+		{
+			if(Level.curLvlIndex>=Level.levels.length)
+			{
+				batch.draw(youWinTex, -256, -256);
+			}
+		}
 		batch.end();
 	}
 	
