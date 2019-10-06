@@ -73,7 +73,7 @@ public class Game extends ApplicationAdapter {
 				Gdx.graphics.setWindowedMode(1280, 720);
 			}
 		}
-		boolean allDead=true;
+		boolean allDead=fighters.size>0;//Only count if there ARE fighters
 		Array<Fighter> deadFighters = new Array<Fighter>();
 		for(Fighter f : fighters)
 		{
@@ -89,12 +89,17 @@ public class Game extends ApplicationAdapter {
 			}
 			
 		}
+		
 		if(allDead && Level.curLvlIndex<Level.levels.length)
 		{
 			Level.curLvlIndex++;
+			
 			if(Level.curLvlIndex<Level.levels.length)
-			{currentLevel=Level.levels[Level.curLvlIndex];
-			fighters.removeAll(deadFighters, false);}
+			{
+				currentLevel=Level.levels[Level.curLvlIndex];
+				currentLevel.spawnWarriors();
+				fighters.removeAll(deadFighters, false);
+			}
 		}
 		Item.playerPickingItemUp=false;
 		for(AIController ai : ais)

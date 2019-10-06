@@ -87,7 +87,7 @@ public abstract class Fighter
 		canMove=true;
 		rect.set(x-32,y,64,64);
 	}
-	private float getSpeed() {
+	public float getSpeed() {
 		return 90;
 	}
 	public abstract void draw(SpriteBatch batch);
